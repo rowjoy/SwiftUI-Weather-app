@@ -5,37 +5,25 @@
 //  Created by Jamirul Islam on 26/8/25.
 //
 
+// https://youtu.be/b1oC7sLIgpI?si=LbH2Wj_sHHo-tejZ
+// 1:15:29
+
+
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State private var isNightMode: Bool = false
+    
     var body: some View {
-       
         ZStack{
-            LinearGradient(
-                colors: [.blue, Color("lightBlue")],
-                startPoint: .topTrailing,
-                endPoint: .bottomTrailing
-            )
-            .edgesIgnoringSafeArea(.all)
-            
+            BackgroundViews(isNightMode: $isNightMode)
             VStack{
-               Text("Current Weat , CA")
-                    .font(.system(size: 32, weight: .bold,
-                                  design: .default))
-                    .foregroundColor(.white)
-                    .padding()
-                VStack(spacing: 8){
-                    Image(systemName: "cloud.sun.rain.fill")
-                        .renderingMode(.original)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 180, height: 180)
-                    
-                    Text("28°")
-                        .font(.system(size: 70, weight: .medium))
-                        .foregroundColor(.white)
-                }
-                
+                CityView(cityName: "Cupcaketown , CA")
+                MainWeatherStatus(
+                    iconName: isNightMode ? "moon.stars.fill" : "cloud.sun.bolt.fill",
+                    temperature: 25,
+                )
                 Spacer()
                 HStack(spacing: 20,){
                     WeatherDayView(
@@ -68,14 +56,15 @@ struct ContentView: View {
                     )
 
                 }
-                
                 Spacer()
-                
-                Button() {
-                   print("Button Tapped")
-                } label: {
-                   Text("Get Forecast")
-                }
+                WeatherButtonView(
+                    buttonName: "Next 7 Days",
+                    action: {
+                        isNightMode.toggle()
+                        print("Tabbed")
+                    }
+                )
+                Spacer()
 
                     
             }
@@ -107,6 +96,50 @@ struct WeatherDayView: View {
                 .foregroundColor(.white)
                 .font(.system(size: 20, weight: .medium))
             
+        }
+    }
+}
+
+struct BackgroundViews: View {
+    @Binding var isNightMode : Bool
+    var body: some View {
+        LinearGradient(
+            colors: [isNightMode ? .black  : .blue, isNightMode ? .gray :   Color("lightBlue")],
+            startPoint: .topTrailing,
+            endPoint: .bottomTrailing
+        )
+        .edgesIgnoringSafeArea(.all)
+    }
+}
+
+
+
+struct CityView: View {
+    var cityName : String
+    var body: some View{
+        Text(cityName)
+             .font(.system(size: 32, weight: .bold,
+                           design: .default))
+             .foregroundColor(.white)
+             .padding()
+    }
+}
+
+
+struct MainWeatherStatus : View{
+    var iconName : String = "cloud.sun.rain.fill"
+    var temperature : Int = 0
+    var body: some View {
+        VStack(spacing: 8){
+            Image(systemName: iconName)
+                .renderingMode(.original)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 180, height: 180)
+            
+            Text("\(temperature)°")
+                .font(.system(size: 70, weight: .medium))
+                .foregroundColor(.white)
         }
     }
 }
