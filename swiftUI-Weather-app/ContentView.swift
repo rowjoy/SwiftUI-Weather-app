@@ -6,7 +6,7 @@
 //
 
 // https://youtu.be/b1oC7sLIgpI?si=LbH2Wj_sHHo-tejZ
-// 1:15:29
+// 1:49:24
 
 
 import SwiftUI
@@ -87,6 +87,7 @@ struct WeatherDayView: View {
                 .font(.system(size: 16, weight: .medium, design: .default))
                 .foregroundColor(.white)
             Image(systemName: imageName)
+                .symbolRenderingMode(.multicolor)
                 .renderingMode(.original)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
@@ -132,6 +133,7 @@ struct MainWeatherStatus : View{
     var body: some View {
         VStack(spacing: 8){
             Image(systemName: iconName)
+                .symbolRenderingMode(.multicolor)
                 .renderingMode(.original)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
